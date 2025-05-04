@@ -5,32 +5,52 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        final var scanner = new Scanner(System.in);
         final var random = new Random();
         final var words = "hotel ambulance voiture hopital cardio fitness gardien magasin".split(" ");
-        final var wordToGuess = words[random.nextInt(words.length)];
-        final var game = new GuessGame(wordToGuess, 10);
+        var wordToGuess = words[random.nextInt(words.length)];
+        var game = new GuessGame(wordToGuess, 10);
 
         System.out.println("Le pendu commence !");
 
         while(true) {
             System.out.println(game);
-            System.out.print("Entrez une lettre : ");
-            final var letter = scanner.nextLine().charAt(0);
+            final var letter = scanLetter("Entrez une lettre : ");
 
             game.guessLetter(letter);
 
             if (game.isLost()) {
                 System.out.println(game);
                 System.out.println("Vous avez perdu !");
-                break;
+                System.out.println("Le mot était : " + game.getSecretWord());
             }
 
             if (game.isWin()) {
                 System.out.println(game);
                 System.out.println("Vous avez gagnez !");
+            }
+
+            if (game.isLost() || game.isWin()) {
+                var replayAnswer = scanLetter("Voulez-vous rejouer ? (o/n) : ");
+                if (replayAnswer == 'o') {
+                    wordToGuess = words[random.nextInt(words.length)];
+                    game = new GuessGame(wordToGuess, 10);
+                    continue;
+                }
                 break;
             }
         }
+    }
+
+    private static char scanLetter(String question) {
+        final var scanner = new Scanner(System.in);
+        Character letter = null;
+        do {
+            System.out.print(question);
+            var input = scanner.nextLine();
+            if (input.length() == 1) {
+                letter = input.charAt(0);
+            }
+        } while (letter == null);
+        return letter;
     }
 }
