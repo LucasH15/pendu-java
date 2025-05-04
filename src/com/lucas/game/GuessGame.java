@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Set;
 
 public class GuessGame {
-    private List<Character> secretWord = new ArrayList<>();
+    final private List<Character> secretWord = new ArrayList<>();
     private int lifePoints;
-    private List<Character> guessWord = new ArrayList<>();
-    private Set<Character> guessLetters = new HashSet<>();
+    final private List<Character> guessWord = new ArrayList<>();
+    final private Set<Character> guessLetters = new HashSet<>();
 
     public GuessGame(String wordToGuess, int lifePoints) {
         for (char c : wordToGuess.toCharArray()) {
@@ -40,9 +40,10 @@ public class GuessGame {
                 index++;
             }
         } else if (!guessWord.contains(letter) && !guessLetters.contains(letter)) {
-            guessLetters.add(letter);
             lifePoints--;
         }
+
+        guessLetters.add(letter);
     }
 
     public boolean isLost() {

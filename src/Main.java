@@ -30,13 +30,16 @@ public class Main {
             }
 
             if (game.isLost() || game.isWin()) {
-                var replayAnswer = scanLetter("Voulez-vous rejouer ? (o/n) : ");
-                if (replayAnswer == 'o') {
-                    wordToGuess = words[random.nextInt(words.length)];
-                    game = new GuessGame(wordToGuess, 10);
-                    continue;
-                }
-                break;
+                do {
+                    var replayAnswer = scanLetter("Voulez-vous rejouer ? (o/n) : ");
+                    if (replayAnswer == 'o') {
+                        wordToGuess = words[random.nextInt(words.length)];
+                        game = new GuessGame(wordToGuess, 10);
+                        break;
+                    } else if (replayAnswer == 'n') {
+                        System.exit(0);
+                    }
+                } while (true);
             }
         }
     }
