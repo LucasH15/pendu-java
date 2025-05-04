@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GuessGame {
-    private List<String> secretWord = new ArrayList<>();
+    private List<Character> secretWord = new ArrayList<>();
     private int lifePoints;
-    private List<String> guessWord = new ArrayList<>();
+    private List<Character> guessWord = new ArrayList<>();
 
     public GuessGame(String wordToGuess, int lifePoints) {
         for (char c : wordToGuess.toCharArray()) {
@@ -14,12 +14,37 @@ public class GuessGame {
         }
         this.lifePoints = lifePoints;
         for (int i = 0; i < secretWord.size(); i++) {
-            this.guessWord.add("_");
+            this.guessWord.add('_');
         }
     }
 
     @Override
     public String toString() {
-        return String.join(" ", guessWord);
+        return "GuessGame{" +
+                "lifePoints=" + lifePoints +
+                ", guessWord=" + guessWord +
+                "}";
+    }
+
+    public void guessLetter(char letter) {
+        if (secretWord.contains(letter) && !guessWord.contains(letter)) {
+            var index = 0;
+            for (char c : secretWord) {
+                if (c == letter) {
+                    guessWord.set(index, letter);
+                }
+                index++;
+            }
+        } else {
+            lifePoints--;
+        }
+    }
+
+    public boolean isLost() {
+        return lifePoints <= 0;
+    }
+
+    public boolean isWin() {
+        return !guessWord.contains('_');
     }
 }
